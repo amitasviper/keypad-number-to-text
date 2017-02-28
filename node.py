@@ -23,19 +23,30 @@ class Node(object):
             #     return
             self.mapping[child_key] = Node(suffix[1:])
 
-    def search(self, number, output, array):
+    def search(self, number, word_in_construction, output_array, root_node, array_in_construction):
         if len(number) == 0:
-            array.append(output)
+            #array.append(output)
+            print "Adding array : ", array_in_construction
+            output_array.append(array_in_construction)
             return
         digit = number[0]
         for letter in self.keyboard[digit]:
-            print 'Looking for : ',letter
-            print "Keys: ", self.mapping.keys()
+            new_temp_arr = array_in_construction[:]
             if self.mapping.has_key(letter):
-                print "Letter is present : ", letter
-                self.mapping[letter].search(number[1:], output + letter, array)
+                if self.mapping[letter].terminator:
+                    new_temp_arr.append(word_in_construction + letter)
+                    if self != root_node:
+                        root_node.search(number[1:], '', output_array, root_node, new_temp_arr)
+                    new_temp_arr = []
+                self.mapping[letter].search(number[1:], word_in_construction + letter, output_array, root_node, new_temp_arr)
+                new_temp_arr = []
+
             else:
-                print letter, " is not present"
+                #print letter, " is not present, searching from root"
+                pass
+                #if self != root:
+                    #root.search(number[1:], '', array, root)
+
 
 class RootNode(Node):
     def __init__(self):

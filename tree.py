@@ -14,6 +14,6 @@ class Tree(object):
 
     def search(self, number):
         array = []
-        self.root.search(number, '', array)
+        self.root.search(number, '', array, self.root, [])
         print array
 
