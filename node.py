@@ -10,7 +10,7 @@ class Node(object):
                          }
 
     def create_subnodes(self, suffix):
-        #print "Adding : ",suffix
+        # print "Adding : ",suffix
         if suffix == '':
             self.terminator = True
             return
@@ -22,12 +22,15 @@ class Node(object):
             #     self.terminator = True
             #     return
             self.mapping[child_key] = Node(suffix[1:])
+            self.mapping[child_key]
 
     def search(self, number, word_in_construction, output_array, root_node, array_in_construction):
+        # print number, word_in_construction, output_array, array_in_construction
         if len(number) == 0:
-            #array.append(output)
-            print "Adding array : ", array_in_construction
-            output_array.append(array_in_construction)
+            # print "Adding array : ", array_in_construction
+            if all(len(word) > 3 for word in array_in_construction):
+                if len(''.join(array_in_construction)) == 10:
+                    output_array.append(array_in_construction)
             return
         digit = number[0]
         for letter in self.keyboard[digit]:
@@ -37,15 +40,16 @@ class Node(object):
                     new_temp_arr.append(word_in_construction + letter)
                     if self != root_node:
                         root_node.search(number[1:], '', output_array, root_node, new_temp_arr)
-                    new_temp_arr = []
-                self.mapping[letter].search(number[1:], word_in_construction + letter, output_array, root_node, new_temp_arr)
+                    new_temp_arr = array_in_construction[:]
+                self.mapping[letter].search(number[1:], word_in_construction + letter, output_array, root_node,
+                                            new_temp_arr)
                 new_temp_arr = []
 
             else:
-                #print letter, " is not present, searching from root"
+                # print letter, " is not present, searching from root"
                 pass
-                #if self != root:
-                    #root.search(number[1:], '', array, root)
+                # if self != root:
+                # root.search(number[1:], '', array, root)
 
 
 class RootNode(Node):

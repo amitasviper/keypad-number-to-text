@@ -8,8 +8,8 @@ def read_dictionary(filename):
 
 if __name__ == "__main__":
     tree = Tree()
-    #filename = 'dictionary.txt'
-    filename = 'temp.txt'
+    filename = 'dictionary.txt'
+    #filename = 'temp.txt'
     number = '6686787825'  # 6787825'
     start_time = time.time()
     for line in read_dictionary(filename):
