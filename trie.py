@@ -8,7 +8,7 @@ class Trie(object):
     def add_word(self, word):
         self.root.create_subnodes(word)
 
-    def search(self, number):
+    def search_words(self, number):
         array = []
         self.root.search(number, '', array, self.root, [])
         return array

@@ -9,7 +9,6 @@ class Node(object):
                          }
 
     def create_subnodes(self, suffix):
-        # print "Adding : ",suffix
         if suffix == '':
             self.terminator = True
             return
@@ -17,16 +16,11 @@ class Node(object):
         if self.mapping.has_key(child_key):
             self.mapping[child_key].create_subnodes(suffix[1:])
         else:
-            # if suffix[1:] == '':
-            #     self.terminator = True
-            #     return
             self.mapping[child_key] = Node(suffix[1:])
             self.mapping[child_key]
 
     def search(self, number, word_in_construction, output_array, root_node, array_in_construction):
-        # print number, word_in_construction, output_array, array_in_construction
         if len(number) == 0:
-            # print "Adding array : ", array_in_construction
             if all(len(word) > 3 for word in array_in_construction):
                 if len(''.join(array_in_construction)) == 10:
                     output_array.append(array_in_construction)
@@ -43,11 +37,6 @@ class Node(object):
                 self.mapping[letter].search(number[1:], word_in_construction + letter, output_array, root_node,
                                             new_temp_arr)
 
-            else:
-                # print letter, " is not present, searching from root"
-                pass
-                # if self != root:
-                # root.search(number[1:], '', array, root)
 
 
 class RootNode(Node):

@@ -1,4 +1,4 @@
-from itertools import combinations, product
+from itertools import product
 
 
 class ReverseIndex(object):
@@ -16,39 +16,27 @@ class ReverseIndex(object):
         if letter in 'tuvTUV': return 8
         if letter in 'wxyzWXYZ': return 9
 
-    def get_word_index(self, word):
+    def calculate_word_index(self, word):
         number = 0
         for letter in word:
-            number = (number*10) + self.mapping(letter)
+            number = (number * 10) + self.mapping(letter)
         return str(number)
 
     def add_word(self, word):
-        index = self.get_word_index(word)
+        index = self.calculate_word_index(word)
         if self.indexedData.has_key(index):
             self.indexedData[index].append(word)
         else:
             self.indexedData[index] = [word]
 
-    def combine_lists(self, prefix_list, suffix_list):
-        combined = []
-        for prefix in prefix_list:
-            for suffix in suffix_list:
-                combined.append([prefix, suffix])
-        return combined
-
-    def split_combinations(self, number):
-        for split in range(1, len(number)):
-            for combination in self.split_combinations(number[split:]):
-                yield [number[:split]] + combination
-        yield [number]
-
-    def split_combinations2(self, number):
-        for i in range(len(s)):
-            for split_points in combinations(range(1, len(number)), i):
-                yield self.split_string(number, split_points)
-
-    def split_string(self, number, index):
-        return [number[start:finish] for start, finish in zip((None,) + index, index + (None,))]
+    def split_number_combinations(self, number):
+        splitted_numbers = [[number]]
+        for i in range(0, 10 - 2 * self.min_word_len):
+            split_index = self.min_word_len + i
+            prefix = number[:split_index]
+            suffix = number[split_index:]
+            splitted_numbers.append([prefix, suffix])
+        return splitted_numbers
 
     def words_for_number(self, number_array):
         result = []
@@ -59,12 +47,9 @@ class ReverseIndex(object):
 
     def search_words(self, number):
         result = []
-        splitted_number_cominations = self.split_combinations(number)
-        for splitted_number in splitted_number_cominations:
-            if len(splitted_number) > 2:
-                continue
+        splitted_numbers = self.split_number_combinations(number)
+        for splitted_number in splitted_numbers:
             if all(len(number) >= self.min_word_len and self.indexedData.has_key(number) for number in splitted_number):
                 splitted_word = self.words_for_number(splitted_number)
                 result.extend(splitted_word)
         return result
-
