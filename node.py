@@ -1,7 +1,6 @@
 class Node(object):
     def __init__(self, word):
         self.mapping = {}
-        self.word = word
         self.terminator = False
         self.create_subnodes(word)
         self.keyboard = {'2': ['A', 'B', 'C'], '3': ['D', 'E', 'F'], '4': ['G', 'H', 'I'],
@@ -43,7 +42,6 @@ class Node(object):
                     new_temp_arr = array_in_construction[:]
                 self.mapping[letter].search(number[1:], word_in_construction + letter, output_array, root_node,
                                             new_temp_arr)
-                new_temp_arr = []
 
             else:
                 # print letter, " is not present, searching from root"
